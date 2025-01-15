@@ -1,4 +1,12 @@
 using App.Repository.Database;
+using App.Repository.Entities.Concrete;
+using App.Repository.GenericRepositories;
+using App.Repository.GenericRepositories.HotelServiceRepositories;
+using App.Repository.GenericRepositories.RoomRepositories;
+using App.Repository.GenericRepositories.StaffRepositories;
+using App.Repository.GenericRepositories.SubscribeRepositories;
+using App.Repository.GenericRepositories.TestimonialRepositories;
+using App.Repository.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +29,14 @@ public static class RepositoryExtension
                 sqlServerOptionsAction.MigrationsAssembly(typeof(RepositoryAssembly).Assembly.FullName);
             });
         });
+        
+        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+        services.AddScoped<IHotelServiceRepository, HotelServiceRepository>();
+        services.AddScoped<IRoomRepository, RoomRepository>();
+        services.AddScoped<IStaffRepository, StaffRepository>();
+        services.AddScoped<ISubscribeRepository, SubscribeRepository>();
+        services.AddScoped<ITestimonialRepository, TestimonialRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
         return services;
     }
     
