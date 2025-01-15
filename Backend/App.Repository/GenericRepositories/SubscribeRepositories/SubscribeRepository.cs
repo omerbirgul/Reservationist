@@ -4,7 +4,7 @@ using App.Repository.GenericRepositories.StaffRepositories;
 
 namespace App.Repository.GenericRepositories.SubscribeRepositories;
 
-public class SubscribeRepository : GenericRepository<Staff>, IStaffRepository
+public class SubscribeRepository : GenericRepository<Subscribe>, ISubscribeRepository
 {
     public SubscribeRepository(AppDbContext context) : base(context)
     {
