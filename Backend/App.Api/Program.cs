@@ -1,6 +1,9 @@
 using App.Repository.Extensions;
+using App.Service.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddService(builder.Configuration);
 
 // Add services to the container.
 
