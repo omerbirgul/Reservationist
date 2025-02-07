@@ -16,9 +16,9 @@ public class GenericService<TCreateRequest, TUpdateRequest, TResponse, TCreateRe
     where TEntity : class
 {
 
-    private readonly IGenericRepository<TEntity> _genericRepository;
-    private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
+    protected readonly IGenericRepository<TEntity> _genericRepository;
+    protected readonly IMapper _mapper;
+    protected readonly IUnitOfWork _unitOfWork;
 
     public GenericService(IGenericRepository<TEntity> genericRepository, IMapper mapper, IUnitOfWork unitOfWork)
     {
@@ -27,14 +27,14 @@ public class GenericService<TCreateRequest, TUpdateRequest, TResponse, TCreateRe
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<ServiceResult<List<TResponse>>> GetAllAsync()
+    public virtual async Task<ServiceResult<List<TResponse>>> GetAllAsync()
     {
         var entities = await _genericRepository.GetAll().ToListAsync();
         var responseDto = _mapper.Map<List<TResponse>>(entities);
         return ServiceResult<List<TResponse>>.Success(responseDto);
     }
 
-    public async Task<ServiceResult<TResponse>> GetByIdAsync(int id)
+    public virtual async Task<ServiceResult<TResponse>> GetByIdAsync(int id)
     {
         var entity = await _genericRepository.GetByIdAsync(id);
         if (entity is null)
@@ -43,7 +43,7 @@ public class GenericService<TCreateRequest, TUpdateRequest, TResponse, TCreateRe
         return ServiceResult<TResponse>.Success(responseDto);
     }
 
-    public async Task<ServiceResult<TCreateResponse>> CreateAsync(TCreateRequest request)
+    public virtual async Task<ServiceResult<TCreateResponse>> CreateAsync(TCreateRequest request)
     {
         var entity = _mapper.Map<TEntity>(request);
         await _genericRepository.CreateAsync(entity);
@@ -52,7 +52,7 @@ public class GenericService<TCreateRequest, TUpdateRequest, TResponse, TCreateRe
         return ServiceResult<TCreateResponse>.Success(responseDto);
     }
 
-    public async Task<ServiceResult> UpdateAsync(int id, TUpdateRequest request)
+    public virtual async Task<ServiceResult> UpdateAsync(int id, TUpdateRequest request)
     {
         var entity = await _genericRepository.GetByIdAsync(id);
         if (entity is null)
@@ -63,7 +63,7 @@ public class GenericService<TCreateRequest, TUpdateRequest, TResponse, TCreateRe
         return ServiceResult.Success(HttpStatusCode.NoContent);
     }
 
-    public async Task<ServiceResult> DeleteAsync(int id)
+    public virtual async Task<ServiceResult> DeleteAsync(int id)
     {
         var entity = await _genericRepository.GetByIdAsync(id);
         if (entity is null)
