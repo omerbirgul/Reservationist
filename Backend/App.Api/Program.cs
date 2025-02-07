@@ -3,6 +3,7 @@ using App.Service.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ServiceExtensions added.
 builder.Services.AddService(builder.Configuration);
 
 // Add services to the container.
