@@ -8,7 +8,7 @@ public class Staff : IAuditEntity
     public string Image { get; set; }
     public string FullName { get; set; }
     public string Title { get; set; }
-    public Uri FaceBookUri { get; set; }
+    public Uri FacebookUri { get; set; }
     public Uri TwitterUri { get; set; }
     public Uri InstagramUri { get; set; }
     

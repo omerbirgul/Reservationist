@@ -14,6 +14,6 @@ public class StaffConfiguration : IEntityTypeConfiguration<Staff>
         builder.Property(x => x.Title).IsRequired();
         builder.Property(x => x.InstagramUri).IsRequired();
         builder.Property(x => x.TwitterUri).IsRequired();
-        builder.Property(x => x.FaceBookUri).IsRequired();
+        builder.Property(x => x.FacebookUri).IsRequired();
     }
 }
