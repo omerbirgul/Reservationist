@@ -16,6 +16,6 @@ public class RoomConfiguration : IEntityTypeConfiguration<Room>
         builder.Property(x => x.BathCount).IsRequired();
         builder.Property(x => x.CoverImage).IsRequired();
         builder.Property(x => x.HasWifi).IsRequired();
-        builder.Property(x => x.RoomNumber).HasMaxLength(4);
+        builder.Property(x => x.RoomNumber).HasMaxLength(4).IsRequired();
     }
 }
