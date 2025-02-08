@@ -1,5 +1,10 @@
 using App.Service.Mapping;
+using App.Service.Services.GenericServices;
+using App.Service.Services.HotelServices;
 using App.Service.Services.RoomServices;
+using App.Service.Services.StaffServices;
+using App.Service.Services.SubscribeServices;
+using App.Service.Services.TestimonialServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +16,11 @@ public static class ServiceExtension
     {
         services.AddAutoMapper(typeof(GeneralMapping));
 
+        services.AddScoped(typeof(IGenericService<,,,,>), typeof(GenericService<,,,,>));
         services.AddScoped<IRoomService, RoomService>();
+        services.AddScoped<IHotelService, HotelService>();
+        services.AddScoped<IStaffService, StaffService>();
+        services.AddScoped<ISubscribeService, SubscribeService>();
+        services.AddScoped<ITestimonialService, TestimonialService>();
     }
 }
