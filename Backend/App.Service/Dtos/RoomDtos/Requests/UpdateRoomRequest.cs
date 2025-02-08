@@ -1,6 +1,7 @@
 namespace App.Service.Dtos.RoomDtos.Requests;
 
 public record UpdateRoomRequest(
+    string Description,
     string RoomNumber,
     string CoverImage,
     decimal Price,
