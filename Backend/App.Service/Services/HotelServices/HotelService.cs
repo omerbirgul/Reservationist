@@ -12,9 +12,9 @@ public class HotelService : GenericService<
     UpdateHotelServiceRequest,
     HotelServiceDto,
     CreateHotelServiceResponse,
-    HotelService>, IHotelService
+    Repository.Entities.Concrete.HotelService>, IHotelService
 {
-    public HotelService(IGenericRepository<HotelService> genericRepository, IMapper mapper, IUnitOfWork unitOfWork) : base(genericRepository, mapper, unitOfWork)
+    public HotelService(IGenericRepository<Repository.Entities.Concrete.HotelService> genericRepository, IMapper mapper, IUnitOfWork unitOfWork) : base(genericRepository, mapper, unitOfWork)
     {
     }
 }
