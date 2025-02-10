@@ -13,7 +13,6 @@ public class SubscribeService : GenericService<
     CreateSubscribeRequest,
     UpdateSubcsribeRequest,
     SubscribeDto,
-    CreateSubscribeResponse,
     Subscribe>, ISubscribeService
 {
     public SubscribeService(IGenericRepository<Subscribe> genericRepository, IMapper mapper, IUnitOfWork unitOfWork) 

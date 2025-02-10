@@ -10,7 +10,6 @@ public interface ISubscribeService : IGenericService<
     CreateSubscribeRequest,
     UpdateSubcsribeRequest,
     SubscribeDto,
-    CreateSubscribeResponse,
     Subscribe>
 {
     

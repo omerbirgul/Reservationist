@@ -7,12 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.Service.Services.GenericServices;
 
-public class GenericService<TCreateRequest, TUpdateRequest, TResponse, TCreateResponse, TEntity>
-    : IGenericService<TCreateRequest, TUpdateRequest, TResponse, TCreateResponse, TEntity>
+public class GenericService<TCreateRequest, TUpdateRequest, TResponse, TEntity>
+    : IGenericService<TCreateRequest, TUpdateRequest, TResponse, TEntity>
     where TCreateRequest : class
     where TUpdateRequest : class
     where TResponse : class
-    where TCreateResponse : class
     where TEntity : class
 {
 
@@ -43,13 +42,13 @@ public class GenericService<TCreateRequest, TUpdateRequest, TResponse, TCreateRe
         return ServiceResult<TResponse>.Success(responseDto);
     }
 
-    public virtual async Task<ServiceResult<TCreateResponse>> CreateAsync(TCreateRequest request)
+    public virtual async Task<ServiceResult<TResponse>> CreateAsync(TCreateRequest request)
     {
         var entity = _mapper.Map<TEntity>(request);
         await _genericRepository.CreateAsync(entity);
         await _unitOfWork.SaveChangesAsync();
-        var responseDto = _mapper.Map<TCreateResponse>(entity);
-        return ServiceResult<TCreateResponse>.Success(responseDto);
+        var responseDto = _mapper.Map<TResponse>(entity);
+        return ServiceResult<TResponse>.Success(responseDto);
     }
 
     public virtual async Task<ServiceResult> UpdateAsync(int id, TUpdateRequest request)

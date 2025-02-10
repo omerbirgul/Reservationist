@@ -10,7 +10,6 @@ public interface IStaffService : IGenericService<
     CreateStaffRequest,
     UpdateStaffRequest,
     StaffDto,
-    CreateStaffResponse,
     Staff>
 {
     

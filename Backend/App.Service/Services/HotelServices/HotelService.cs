@@ -11,7 +11,6 @@ public class HotelService : GenericService<
     CreateHotelServiceRequest,
     UpdateHotelServiceRequest,
     HotelServiceDto,
-    CreateHotelServiceResponse,
     Repository.Entities.Concrete.HotelService>, IHotelService
 {
     public HotelService(IGenericRepository<Repository.Entities.Concrete.HotelService> genericRepository, IMapper mapper, IUnitOfWork unitOfWork) : base(genericRepository, mapper, unitOfWork)

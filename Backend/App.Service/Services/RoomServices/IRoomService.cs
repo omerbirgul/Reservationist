@@ -10,7 +10,6 @@ public interface IRoomService : IGenericService<
     CreateRoomRequest,
     UpdateRoomRequest,
     RoomDto,
-    CreateRoomResponse,
     Room>
 {
 }

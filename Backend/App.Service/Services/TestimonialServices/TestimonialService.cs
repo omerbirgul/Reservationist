@@ -13,7 +13,6 @@ public class TestimonialService : GenericService<
     CreateTestimonialRequest,
     UpdateTestimonialRequest,
     TestimonialDto,
-    CreateTestimonialResponse,
     Testimonial>, ITestimonialService
 
 {

@@ -9,7 +9,6 @@ public interface IHotelService : IGenericService<
         CreateHotelServiceRequest,
         UpdateHotelServiceRequest,
         HotelServiceDto,
-        CreateHotelServiceResponse,
         Repository.Entities.Concrete.HotelService>
 {
         

@@ -10,7 +10,6 @@ public interface ITestimonialService : IGenericService<
     CreateTestimonialRequest,
     UpdateTestimonialRequest,
     TestimonialDto,
-    CreateTestimonialResponse,
     Testimonial>
 {
     

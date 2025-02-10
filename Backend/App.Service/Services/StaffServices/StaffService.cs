@@ -13,7 +13,6 @@ public class StaffService : GenericService<
     CreateStaffRequest,
     UpdateStaffRequest,
     StaffDto,
-    CreateStaffResponse,
     Staff>, IStaffService
 {
     public StaffService(IGenericRepository<Staff> genericRepository, IMapper mapper, IUnitOfWork unitOfWork) 

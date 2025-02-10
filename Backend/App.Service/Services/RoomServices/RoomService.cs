@@ -16,7 +16,6 @@ public class RoomService : GenericService<
     CreateRoomRequest,
     UpdateRoomRequest,
     RoomDto,
-    CreateRoomResponse,
     Room>, IRoomService
 {
     public RoomService(IGenericRepository<Room> genericRepository, IMapper mapper, IUnitOfWork unitOfWork)
@@ -24,17 +23,17 @@ public class RoomService : GenericService<
     {
     }
     
-    public override async Task<ServiceResult<CreateRoomResponse>> CreateAsync(CreateRoomRequest request)
+    public override async Task<ServiceResult<RoomDto>> CreateAsync(CreateRoomRequest request)
     {
              var hasRoom = await _genericRepository.Where(x => x.RoomNumber == request.RoomNumber).AnyAsync();
              if (hasRoom)
-                 return ServiceResult<CreateRoomResponse>.Fail("Room already exist");
+                 return ServiceResult<RoomDto>.Fail("Room already exist");
         
              var roomEntity = _mapper.Map<Room>(request);
              await _genericRepository.CreateAsync(roomEntity);
              await _unitOfWork.SaveChangesAsync();
-             var response = new CreateRoomResponse(roomEntity.Id);
-             return ServiceResult<CreateRoomResponse>.SuccessAsCreated(response, $"api/room/{roomEntity.Id}");
+             var response = _mapper.Map<RoomDto>(roomEntity);
+             return ServiceResult<RoomDto>.SuccessAsCreated(response, $"api/room/{response.Id}");
     }
 
     public override async Task<ServiceResult> UpdateAsync(int id, UpdateRoomRequest request)

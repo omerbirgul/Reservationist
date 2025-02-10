@@ -16,7 +16,7 @@ public static class ServiceExtension
     {
         services.AddAutoMapper(typeof(GeneralMapping));
 
-        services.AddScoped(typeof(IGenericService<,,,,>), typeof(GenericService<,,,,>));
+        services.AddScoped(typeof(IGenericService<,,,>), typeof(GenericService<,,,>));
         services.AddScoped<IRoomService, RoomService>();
         services.AddScoped<IHotelService, HotelService>();
         services.AddScoped<IStaffService, StaffService>();
