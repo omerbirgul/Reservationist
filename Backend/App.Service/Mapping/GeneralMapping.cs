@@ -7,6 +7,8 @@ using App.Repository.Dtos.SubscribeDtos;
 using App.Repository.Dtos.SubscribeDtos.Requests;
 using App.Repository.Dtos.TestimonialDtos;
 using App.Repository.Dtos.TestimonialDtos.Requests;
+using App.Repository.Dtos.UserDtos.Requests;
+using App.Repository.Dtos.UserDtos.Responses;
 using App.Repository.Entities.Concrete;
 using App.Service.Dtos.HotelServiceDtos;
 using AutoMapper;
@@ -36,5 +38,8 @@ public class GeneralMapping : Profile
         CreateMap<Testimonial, CreateTestimonialRequest>().ReverseMap();
         CreateMap<Testimonial, UpdateTestimonialRequest>().ReverseMap();
         CreateMap<Testimonial, TestimonialDto>().ReverseMap();
+
+        CreateMap<AppUser, CreateUserRequest>().ReverseMap();
+        CreateMap<AppUser, CreateUserResponse>().ReverseMap();
     }
 }
