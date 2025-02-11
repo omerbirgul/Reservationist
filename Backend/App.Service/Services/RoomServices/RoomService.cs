@@ -1,11 +1,9 @@
 using System.Net;
+using App.Repository.Dtos.RoomDtos;
+using App.Repository.Dtos.RoomDtos.Requests;
 using App.Repository.Entities.Concrete;
 using App.Repository.GenericRepositories;
-using App.Repository.GenericRepositories.RoomRepositories;
 using App.Repository.UnitOfWork;
-using App.Service.Dtos.RoomDtos;
-using App.Service.Dtos.RoomDtos.Requests;
-using App.Service.Dtos.RoomDtos.Responses;
 using App.Service.Services.GenericServices;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;

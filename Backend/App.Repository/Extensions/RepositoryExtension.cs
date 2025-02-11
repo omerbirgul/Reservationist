@@ -6,6 +6,7 @@ using App.Repository.GenericRepositories.RoomRepositories;
 using App.Repository.GenericRepositories.StaffRepositories;
 using App.Repository.GenericRepositories.SubscribeRepositories;
 using App.Repository.GenericRepositories.TestimonialRepositories;
+using App.Repository.Interceptors;
 using App.Repository.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +29,8 @@ public static class RepositoryExtension
             {
                 sqlServerOptionsAction.MigrationsAssembly(typeof(RepositoryAssembly).Assembly.FullName);
             });
+
+            opt.AddInterceptors(new AuditDbContextInterceptors());
         });
         
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

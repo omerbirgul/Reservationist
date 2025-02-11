@@ -1,6 +1,5 @@
-using App.Service.Dtos.RoomDtos.Requests;
+using App.Repository.Dtos.RoomDtos.Requests;
 using App.Service.Services.RoomServices;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.Api.Controllers

@@ -1,4 +1,4 @@
-using App.Service.Dtos.HotelServiceDtos.Requests;
+using App.Repository.Dtos.HotelServiceDtos.Requests;
 using App.Service.Services.HotelServices;
 using Microsoft.AspNetCore.Mvc;
 

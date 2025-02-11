@@ -1,7 +1,6 @@
+using App.Repository.Dtos.TestimonialDtos;
+using App.Repository.Dtos.TestimonialDtos.Requests;
 using App.Repository.Entities.Concrete;
-using App.Service.Dtos.TestimonialDtos;
-using App.Service.Dtos.TestimonialDtos.Requests;
-using App.Service.Dtos.TestimonialDtos.Responses;
 using App.Service.Services.GenericServices;
 
 namespace App.Service.Services.TestimonialServices;

@@ -1,4 +1,4 @@
-using App.Service.Dtos.SubscribeDtos.Requests;
+using App.Repository.Dtos.SubscribeDtos.Requests;
 using App.Service.Services.SubscribeServices;
 using Microsoft.AspNetCore.Mvc;
 

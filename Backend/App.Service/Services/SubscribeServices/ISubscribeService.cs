@@ -1,7 +1,6 @@
+using App.Repository.Dtos.SubscribeDtos;
+using App.Repository.Dtos.SubscribeDtos.Requests;
 using App.Repository.Entities.Concrete;
-using App.Service.Dtos.SubscribeDtos;
-using App.Service.Dtos.SubscribeDtos.Requests;
-using App.Service.Dtos.SubscribeDtos.Responses;
 using App.Service.Services.GenericServices;
 
 namespace App.Service.Services.SubscribeServices;

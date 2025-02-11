@@ -1,7 +1,6 @@
+using App.Repository.Dtos.RoomDtos;
+using App.Repository.Dtos.RoomDtos.Requests;
 using App.Repository.Entities.Concrete;
-using App.Service.Dtos.RoomDtos;
-using App.Service.Dtos.RoomDtos.Requests;
-using App.Service.Dtos.RoomDtos.Responses;
 using App.Service.Services.GenericServices;
 
 namespace App.Service.Services.RoomServices;
