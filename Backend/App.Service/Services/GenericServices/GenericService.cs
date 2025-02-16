@@ -1,5 +1,7 @@
 using System.Linq.Expressions;
 using System.Net;
+using System.Reflection;
+using App.Repository.Entities.Abstract;
 using App.Repository.GenericRepositories;
 using App.Repository.UnitOfWork;
 using AutoMapper;
@@ -28,18 +30,52 @@ public class GenericService<TCreateRequest, TUpdateRequest, TResponse, TEntity>
 
     public virtual async Task<ServiceResult<List<TResponse>>> GetAllAsync()
     {
-        var entities = await _genericRepository.GetAll().ToListAsync();
+        IQueryable<TEntity> query = _genericRepository.GetAll();
+        if (typeof(IAuditEntity).IsAssignableFrom(typeof(TEntity)))
+        {
+            query = query.Where(x => EF.Property<DateTime?>(x, "DeletedAt") == null);
+        }
+
+        var entities = await query.ToListAsync();
         var responseDto = _mapper.Map<List<TResponse>>(entities);
         return ServiceResult<List<TResponse>>.Success(responseDto);
     }
 
     public virtual async Task<ServiceResult<TResponse>> GetByIdAsync(int id)
     {
-        var entity = await _genericRepository.GetByIdAsync(id);
+        if (typeof(TEntity).GetInterface(nameof(IEntity)) == null)
+        {
+            return ServiceResult<TResponse>.Fail("Invalid entity type");
+        }
+
+        var entity = await _genericRepository
+            .Where(x => EF.Property<DateTime?>(x, "DeletedAt") == null)
+            .FirstOrDefaultAsync(x => ((IEntity)x).Id == id);
+
         if (entity is null)
-            return ServiceResult<TResponse>.Fail($"{typeof(TEntity)} not found");
+            return ServiceResult<TResponse>.Fail("Entity not found");
+
         var responseDto = _mapper.Map<TResponse>(entity);
         return ServiceResult<TResponse>.Success(responseDto);
+
+        #region Solution With Reflections
+
+        // var entityType = typeof(TEntity);
+        // var idProperty = entityType.GetProperty("Id");
+        // if (idProperty is null)
+        //     return ServiceResult<TResponse>.Fail("Invalid entity type");
+        //
+        // var entity = await _genericRepository
+        //     .Where(x => EF.Property<DateTime?>(x, "DeletedAt") == null)
+        //     .FirstOrDefaultAsync(x => (int)idProperty.GetValue(x)! == id);
+        //
+        // if (entity is null)
+        //     return ServiceResult<TResponse>.Fail("Entity not found");
+        //
+        // var responseDto = _mapper.Map<TResponse>(entity);
+        // return ServiceResult<TResponse>.Success(responseDto);
+
+        #endregion
     }
 
     public virtual async Task<ServiceResult<TResponse>> CreateAsync(TCreateRequest request)
