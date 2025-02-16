@@ -1,5 +1,6 @@
 using App.Repository.Entities.Abstract;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace App.Repository.Interceptors;
@@ -9,15 +10,25 @@ public class AuditDbContextInterceptors : SaveChangesInterceptor
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result,
         CancellationToken cancellationToken = new CancellationToken())
     {
-        var context = eventData.Context!.ChangeTracker.Entries();
+        var context = eventData.Context;
+        if (context is null) return base.SavingChangesAsync(eventData, result, cancellationToken);
 
-        foreach (var entry in context.ToList())
+        foreach (var entry in context.ChangeTracker.Entries<IAuditEntity>())
         {
-            if(entry.Entity is not IAuditEntity auditEntity) continue;
-            if(entry.State is not (EntityState.Added or EntityState.Deleted or EntityState.Modified)) continue;
-            if(entry.State is EntityState.Added) AddBehavior(eventData.Context, auditEntity);
-            if(entry.State is EntityState.Modified) UpdateBehavior(eventData.Context, auditEntity);
-            if(entry.State is EntityState.Deleted) DeleteBehavior(eventData.Context, auditEntity);
+            switch (entry.State)
+            {
+                case EntityState.Added:
+                    AddBehavior(entry);
+                    break;
+                
+                case EntityState.Modified:
+                    UpdateBehavior(entry);
+                    break;
+                
+                case EntityState.Deleted:
+                    DeleteBehavior(entry);
+                    break;
+            }
         }
 
         return base.SavingChangesAsync(eventData, result, cancellationToken);
@@ -25,24 +36,25 @@ public class AuditDbContextInterceptors : SaveChangesInterceptor
 
 
 
-    private void AddBehavior(DbContext context, IAuditEntity auditEntity)
+    private void AddBehavior(EntityEntry<IAuditEntity> entry)
     {
-        auditEntity.CreatedAt = DateTime.Now;
-        context.Entry(auditEntity).Property(x => x.UpdatedAt).IsModified = false;
-        context.Entry(auditEntity).Property(x => x.DeletedAt).IsModified = false;
+        entry.Entity.CreatedAt = DateTime.UtcNow;
+        entry.Entity.UpdatedAt = DateTime.UtcNow;
+        entry.Property(x => x.DeletedAt).IsModified = false;
     }
 
-    private void UpdateBehavior(DbContext context, IAuditEntity auditEntity)
+    private void UpdateBehavior(EntityEntry<IAuditEntity> entry)
     {
-        auditEntity.UpdatedAt = DateTime.Now;
-        context.Entry(auditEntity).Property(x => x.DeletedAt).IsModified = false;
-        context.Entry(auditEntity).Property(x => x.CreatedAt).IsModified = false;
+        entry.Entity.UpdatedAt = DateTime.UtcNow;
+        entry.Property(x => x.CreatedAt).IsModified = false;
+        entry.Property(x => x.DeletedAt).IsModified = false;
     }
 
-    private void DeleteBehavior(DbContext context, IAuditEntity auditEntity)
+    private void DeleteBehavior(EntityEntry<IAuditEntity> entry)
     {
-        auditEntity.DeletedAt = DateTime.Now;
-        context.Entry(auditEntity).Property(x => x.CreatedAt).IsModified = false;
-        context.Entry(auditEntity).Property(x => x.UpdatedAt).IsModified = false;
+        entry.Entity.DeletedAt = DateTime.Now;
+        entry.State = EntityState.Modified;
+        entry.Property(x => x.CreatedAt).IsModified = false;
+        entry.Property(x => x.UpdatedAt).IsModified = false;
     } 
 }
