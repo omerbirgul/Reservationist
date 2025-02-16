@@ -2,7 +2,7 @@ using App.Repository.Entities.Abstract;
 
 namespace App.Repository.Entities.Concrete;
 
-public class Testimonial : IAuditEntity
+public class Testimonial : IAuditEntity, IEntity
 {
     public int Id { get; set; }
     public string Description { get; set; }
@@ -11,5 +11,5 @@ public class Testimonial : IAuditEntity
     
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-    public DateTime DeletedAt { get; set; }
+    public DateTime? DeletedAt { get; set; }
 }

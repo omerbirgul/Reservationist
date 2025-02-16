@@ -2,7 +2,7 @@ using App.Repository.Entities.Abstract;
 
 namespace App.Repository.Entities.Concrete;
 
-public class Room : IAuditEntity
+public class Room : IAuditEntity, IEntity
 {
     public int Id { get; set; }
     public string RoomNumber { get; set; }
@@ -16,5 +16,5 @@ public class Room : IAuditEntity
     
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-    public DateTime DeletedAt { get; set; }
+    public DateTime? DeletedAt { get; set; }
 }
