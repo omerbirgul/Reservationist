@@ -8,6 +8,7 @@ using App.Repository.GenericRepositories.SubscribeRepositories;
 using App.Repository.GenericRepositories.TestimonialRepositories;
 using App.Repository.Interceptors;
 using App.Repository.UnitOfWork;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +33,25 @@ public static class RepositoryExtension
 
             opt.AddInterceptors(new AuditDbContextInterceptors());
         });
+
+
+        services.AddIdentity<AppUser, AppRole>(opt =>
+            {
+                opt.User.RequireUniqueEmail = true;
+                opt.User.AllowedUserNameCharacters =
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+
+                opt.Password.RequiredLength = 6;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireLowercase = true;
+                opt.Password.RequireUppercase = false;
+
+                opt.Lockout.MaxFailedAccessAttempts = 3;
+                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3);
+            })
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<AppDbContext>();
         
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IHotelServiceRepository, HotelServiceRepository>();
