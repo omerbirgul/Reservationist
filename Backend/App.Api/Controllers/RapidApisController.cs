@@ -12,11 +12,18 @@ namespace App.Api.Controllers;
         {
             _bookingService = bookingService;
         }
-
-        [HttpGet]
+        
+        [HttpGet("GetMovieList")]
         public async Task<IActionResult> GetMovieList()
         {
-            var result = await _bookingService.ReservationList();
+            var result = await _bookingService.MovieList();
+            return CreateActionResult(result);
+        }
+
+        [HttpGet("GetExhangeRates")]
+        public async Task<IActionResult> GetExhangeRates()
+        {
+            var result = await _bookingService.ExchangeRatesAsync();
             return CreateActionResult(result);
         }
     }

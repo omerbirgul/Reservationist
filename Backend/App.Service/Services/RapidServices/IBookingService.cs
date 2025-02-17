@@ -4,5 +4,6 @@ namespace App.Service.Services.RapidServices;
 
 public interface IBookingService
 {
-    Task<ServiceResult<List<GetTopMovieDto>>> ReservationList();
+    Task<ServiceResult<List<GetTopMovieDto>>> MovieList();
+    Task<ServiceResult<List<CurrencyData>>> ExchangeRatesAsync();
 }
