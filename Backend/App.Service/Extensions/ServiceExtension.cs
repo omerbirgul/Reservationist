@@ -1,10 +1,12 @@
 using App.Service.Mapping;
 using App.Service.Services.GenericServices;
 using App.Service.Services.HotelServices;
+using App.Service.Services.RapidServices;
 using App.Service.Services.RoomServices;
 using App.Service.Services.StaffServices;
 using App.Service.Services.SubscribeServices;
 using App.Service.Services.TestimonialServices;
+using App.Service.Services.UserServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,5 +24,7 @@ public static class ServiceExtension
         services.AddScoped<IStaffService, StaffService>();
         services.AddScoped<ISubscribeService, SubscribeService>();
         services.AddScoped<ITestimonialService, TestimonialService>();
+        services.AddScoped<IBookingService, BookingService>();
+        services.AddScoped<IUserService, UserService>();
     }
 }
