@@ -59,4 +59,29 @@ public class BookingService : IBookingService
             .Select(rate => new CurrencyData(rate.currency, rate.exchange_rate_buy)).ToList();
         return ServiceResult<List<CurrencyData>>.Success(currencyRates);
     }
+
+    public async Task<ServiceResult<LocationIdDto>> GetLocationId(string cityName)
+    {
+        if (string.IsNullOrEmpty(cityName))
+            return ServiceResult<LocationIdDto>.Fail("city name is bull or empty");
+        
+        var result = await FetchFromApi<LocationIdRoot>
+                ("LocationId", $"/api/v1/hotels/searchDestination?query={cityName}");
+        
+        if (result.IsFail)
+            return ServiceResult<LocationIdDto>.Fail("result hatalı");
+
+        if (result.Data.data == null || !result.Data.data.Any())
+            return ServiceResult<LocationIdDto>.Fail("locationIdDatas is empty");
+        
+        var locationId = result.Data.data
+            .Where(x => x.search_type == "city")
+            .Select(x => new LocationIdDto(x.dest_id))
+            .FirstOrDefault();
+        
+        if (locationId is null)
+            return ServiceResult<LocationIdDto>.Fail("location id not found");
+        
+        return ServiceResult<LocationIdDto>.Success(locationId);
+    }
 }

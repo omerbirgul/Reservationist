@@ -26,4 +26,11 @@ namespace App.Api.Controllers;
             var result = await _bookingService.ExchangeRatesAsync();
             return CreateActionResult(result);
         }
+
+        [HttpGet("GetLocationId")]
+        public async Task<IActionResult> GetLocationId(string cityName)
+        {
+            var result = await _bookingService.GetLocationId(cityName);
+            return CreateActionResult(result);
+        }
     }
