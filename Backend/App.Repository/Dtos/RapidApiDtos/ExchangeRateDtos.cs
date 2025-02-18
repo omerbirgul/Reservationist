@@ -2,14 +2,14 @@ using System.Text.Json.Serialization;
 
 namespace App.Repository.Dtos.RapidApiDtos;
 
-public record RootObject(
+public record ExchangeRootObject(
     bool status,
     string message,
     long timestamp,
-    Data data
+    ExchangeDatas data
 );
 
-public record Data(
+public record ExchangeDatas(
     List<Exchange_Rates> exchange_rates,
     string base_currency,
     string base_currency_date
