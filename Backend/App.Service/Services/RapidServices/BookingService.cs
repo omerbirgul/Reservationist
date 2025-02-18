@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using App.Repository.Dtos.RapidApiDtos;
+using App.Service.Extensions;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
@@ -50,7 +51,7 @@ public class BookingService : IBookingService
 
     public async Task<ServiceResult<List<CurrencyData>>> ExchangeRatesAsync()
     {
-        var result = await FetchFromApi<RootObject>("Exchange", "/api/v1/meta/getExchangeRates?base_currency=TRY");
+        var result = await FetchFromApi<ExchangeRootObject>("Exchange", "/api/v1/meta/getExchangeRates?base_currency=TRY");
         if (result.IsFail)
             return ServiceResult<List<CurrencyData>>.Fail(result.ErrorMessage);
 
@@ -83,5 +84,31 @@ public class BookingService : IBookingService
             return ServiceResult<LocationIdDto>.Fail("location id not found");
         
         return ServiceResult<LocationIdDto>.Success(locationId);
+    }
+    
+    public async Task<ServiceResult<List<SearchHotelDto>>> GetHotelsAsync(string cityName, DateTime arrival, DateTime departure)
+    {
+        var locationIdRequest = await GetLocationId(cityName);
+        string formattedArrival = arrival.ToString("yyyy-MM-dd");
+        string formattedDeparture = departure.ToString("yyyy-MM-dd");
+
+        var apiRequest = await FetchFromApi<HotelRootObject>
+        ("Hotel",
+            $"/api/v1/hotels/searchHotels?dest_id={locationIdRequest.Data!.id}&search_type=CITY" +
+            $"&arrival_date={formattedArrival}&departure_date={formattedDeparture}&adults=1&children_age=0%2C17&room_qty=1" +
+            $"&page_number=1&units=metric&temperature_unit=c&languagecode=en-us&currency_code=USD");
+
+        if (apiRequest.IsFail || apiRequest.Data is null)
+            return ServiceResult<List<SearchHotelDto>>.Fail("request error");
+
+        var response = apiRequest.Data.data.hotels
+            .Select(x => new SearchHotelDto(x.property.name, formattedArrival, formattedDeparture, x.property.reviewScore))
+            .OrderByDescending(x => x.reviewScore)
+            .ToList();
+
+        if (response is null)
+            return ServiceResult<List<SearchHotelDto>>.Fail("response is null");
+
+        return ServiceResult<List<SearchHotelDto>>.Success(response);
     }
 }

@@ -33,4 +33,11 @@ namespace App.Api.Controllers;
             var result = await _bookingService.GetLocationId(cityName);
             return CreateActionResult(result);
         }
+
+        [HttpGet("SearchHotels")]
+        public async Task<IActionResult> SearchHotels(string cityName, DateTime arrival, DateTime departure)
+        {
+            var result = await _bookingService.GetHotelsAsync(cityName, arrival, departure);
+            return CreateActionResult(result);
+        }
     }
