@@ -23,4 +23,5 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, string>
     public DbSet<Staff> Staffs { get; set; }
     public DbSet<Subscribe> Subscribes { get; set; }
     public DbSet<Testimonial> Testimonials { get; set; }
+    public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
 }

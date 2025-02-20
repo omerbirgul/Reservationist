@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace App.Service.Services.TokenServices;
+namespace App.Service.Services.SecurityServices.TokenServices;
 
 public class TokenService
 {
