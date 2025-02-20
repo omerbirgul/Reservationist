@@ -7,6 +7,7 @@ using App.Repository.GenericRepositories.StaffRepositories;
 using App.Repository.GenericRepositories.SubscribeRepositories;
 using App.Repository.GenericRepositories.TestimonialRepositories;
 using App.Repository.Interceptors;
+using App.Repository.TokenConfiguration;
 using App.Repository.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -52,6 +53,8 @@ public static class RepositoryExtension
             })
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<AppDbContext>();
+
+        services.Configure<CustomTokenOptions>(configuration.GetSection("CustomTokenOptions"));
         
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IHotelServiceRepository, HotelServiceRepository>();
